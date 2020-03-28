@@ -1,84 +1,61 @@
 // @flow
 import React from "react";
-import { Container, Row, Col, InputGroup, Form } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  InputGroup,
+  Form,
+  Spinner,
+  Table
+} from "react-bootstrap";
 import morsify from "morsify";
 
-import * as ChineseToDigits from "./chinese_to_digits.json"
+import LookupDigits from "../lib/LookupDigits"
+import DigitTable from "./DigitTable"
 
-const dataTable = [
-  ["你", "00001", "abc"],
-  ["好", "99999", "xyz"],
-];
+const chineseToDigitsURL =
+  "https://raw.githubusercontent.com/franklinhu/chinese-in-morse-code/master/chinese_to_morse_digits.json?token=AACUPY345KF6W2R2NNPSN7K6RC37A";
 
-// const chineseToDigit = new Map(dataTable.map((arr) => [arr[0], arr[1]]));
-const chineseToAlpha = new Map(dataTable.map((arr) => [arr[0], arr[2]]));
 
-const chineseToDigitAscii = (s: String) => {
-  return [...s].map((char: String) => ChineseToDigits[char]).reduce((acc, x) => acc + x, '');
+type AppState = {
+  input: string,
+  lookupDigits: ?LookupDigits
 };
 
-const chineseToAlphaAscii = (s: String) => {
-  return [...s].map((char: String) => chineseToAlpha.get(char)).reduce((acc, x) => acc + x, '');
-};
-
-type ConverterState = {
-  value: string
-};
-
-class Converter extends React.Component<{}, ConverterState> {
+export default class App extends React.Component<{}, AppState> {
   constructor(props) {
     super(props);
     this.state = {
-      value: "你好"
+      input: "你好",
+      lookupDigits: null
     };
     this.handleInput = this.handleInput.bind(this);
   }
 
   handleInput(event) {
-    this.setState({ value: event.target.value });
+    this.setState({ input: event.target.value });
+  }
+
+  componentWillMount() {
+    fetch(chineseToDigitsURL)
+      .then(response => response.json())
+      .then(responseJson => {
+        this.setState({ lookupDigits: new LookupDigits(responseJson) });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   render() {
-    const digits = chineseToDigitAscii(this.state.value);
-    const digitsMorse = morsify.encode(digits);
-    const alpha = chineseToAlphaAscii(this.state.value)
-    const alphaMorse = morsify.encode(alpha);
-    return (
-      <React.Fragment>
-        <Col>
-          <InputGroup>
-            <InputGroup.Prepend>
-              <InputGroup.Text>Chinese</InputGroup.Text>
-            </InputGroup.Prepend>
-            <Form.Control
-              as="textarea"
-              aria-label="你好"
-              onChange={this.handleInput}
-              value={this.state.value}
-            />
-          </InputGroup>
-        </Col>
-        <Col>
-          <InputGroup>
-            <InputGroup.Prepend>
-              <InputGroup.Text>V1 (to digits)</InputGroup.Text>
-            </InputGroup.Prepend>
-            <Form.Control as="textarea" value={digitsMorse} disabled />
-          </InputGroup>
-          <InputGroup>
-            <InputGroup.Prepend>
-              <InputGroup.Text>V2 (to alpha)</InputGroup.Text>
-            </InputGroup.Prepend>
-            <Form.Control as="textarea" value={alphaMorse} disabled />
-          </InputGroup>
-        </Col>
-      </React.Fragment>
-    );
-  }
-}
-
-export default class App extends React.Component<{}> {
-  render() {
+    if (this.state.lookupDigits === null) {
+      return (
+        <Spinner animation="border" role="status">
+          <span className="sr-only">Loading...</span>
+        </Spinner>
+      );
+    }
     return (
       <Container>
         <Row>
@@ -87,7 +64,24 @@ export default class App extends React.Component<{}> {
           </Col>
         </Row>
         <Row>
-          <Converter />
+          <Col>
+            <InputGroup>
+              <InputGroup.Prepend>
+                <InputGroup.Text>Chinese</InputGroup.Text>
+              </InputGroup.Prepend>
+              <Form.Control
+                as="textarea"
+                onChange={this.handleInput}
+                value={this.state.input}
+              />
+            </InputGroup>
+          </Col>
+        </Row>
+        <Row>
+          <DigitTable
+            input={this.state.input}
+            lookupDigits={this.state.lookupDigits}
+          />
         </Row>
       </Container>
     );
