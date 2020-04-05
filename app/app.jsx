@@ -1,8 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import 'bootstrap/dist/css/bootstrap.css';
+import "bootstrap/dist/css/bootstrap.css";
 
-import App from './components/App';
+import Router from './components/Router';
 
-ReactDOM.render(<App/>, document.getElementById('main'));
+ReactDOM.render(
+  <Router />,
+  document.getElementById("main")
+);

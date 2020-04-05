@@ -30,6 +30,9 @@ const shuffleArray = (arr) => {
 export default class LookupDigits {
   constructor(dict) {
     this.dict = dict;
+    
+    // Manual fix ups
+    this.dict["，"] = this.dict[","];
 
     this.freeDigits = calculateFreeDigits(dict);
     this.freeDigitMap = {};
