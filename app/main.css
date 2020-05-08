@@ -1,0 +1,39 @@
+.intro-text {
+  font-size: 0.9em;
+  text-align: justify;
+}
+
+.input-text-area {
+  resize: none;
+}
+
+.character-focus {
+  font-weight: bold;
+}
+
+.encoding-selector {
+  margin: 10px auto;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.page-section {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.morse-code-block {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.encoded-charater-row-body {
+  margin-top: 15px;
+}
