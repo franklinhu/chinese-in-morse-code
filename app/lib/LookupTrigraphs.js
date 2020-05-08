@@ -1,6 +1,6 @@
 // @flow
 // These are in traditional Chinese
-const chineseToRoman = {
+export const LetterToChinese = {
   a: "爱",
   b: "比",
   c: "西",
@@ -29,7 +29,7 @@ const chineseToRoman = {
   z: "特"
 };
 
-const chineseAlphas = Object.keys(chineseToRoman);
+const chineseAlphas = Object.keys(LetterToChinese);
 
 const letters = "abcdefghijklmnopqrstuvwxyz";
 
@@ -46,7 +46,7 @@ const generateTrigraph = () => {
 const getChineseTrigraph = (input: String) => {
   return [...input]
     .map(char => {
-      return chineseToRoman[char];
+      return LetterToChinese[char];
     })
     .join("");
 };
@@ -57,9 +57,13 @@ const getChineseTrigraph = (input: String) => {
 export default class LookupTrigraphs {
   constructor() {
     // Maps single Chinese characters to 3 alphabetic letters
-    this.freeTrigraphMap = {};
+    this.freeTrigraphMap = {
+      "冬": "apb", // hard code for demo
+    };
 
-    this.usedTrigraphs = {};
+    this.usedTrigraphs = {
+      "apb": true, // hard code for demo
+    };
   }
 
   getTrigraphForCharacter(key) {
@@ -81,6 +85,8 @@ export default class LookupTrigraphs {
 
   // Returns the value for the key
   lookup(key) {
+    const isCustom = true; // they're all custom
+    
     let value = this.freeTrigraphMap[key];
 
     if (value === undefined) {
@@ -91,6 +97,6 @@ export default class LookupTrigraphs {
 
     const chineseTrigraph = getChineseTrigraph(value);
 
-    return [value, chineseTrigraph];
+    return [value, chineseTrigraph, isCustom];
   }
 }

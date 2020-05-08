@@ -14,12 +14,10 @@ import morsify from "morsify";
 
 import LookupDigits from "../lib/LookupDigits";
 import {sanitizeInput} from "../lib/sanitizeInput";
+import {fetchChineseToDigitsJson} from '../lib/fetchChineseToDigitsJson'
 
 import DigitTable from "./DigitTable";
 import InputTextArea from "./InputTextArea";
-
-const chineseToDigitsURL =
-  "https://raw.githubusercontent.com/franklinhu/chinese-in-morse-code/master/data/chinese_to_morse_digits.json?token=AACUPYZOH7D2VSZRFS2JLE26SHHQE";
 
 type AppState = {
   input: string,
@@ -41,8 +39,7 @@ export default class Version1 extends React.Component<{}, AppState> {
   }
 
   componentWillMount() {
-    fetch(chineseToDigitsURL)
-      .then(response => response.json())
+    fetchChineseToDigitsJson()
       .then(responseJson => {
         this.setState({ lookupDigits: new LookupDigits(responseJson) });
       })
