@@ -11,10 +11,10 @@ import {
   Table
 } from "react-bootstrap";
 
-import morsify from "morsify";
+import morse from "morse-decoder";
 
 import LookupDigits from "../lib/LookupDigits";
-import {charsPerRow} from "../lib/util"
+import { charsPerRow } from "../lib/util"
 
 const highlights = ["#fdb9c9", "#ffdcbe", "#f6f3b5", "#bbf6f3", "#a7e0f4"];
 
@@ -72,7 +72,7 @@ export default class DigitColumns extends React.Component<
         digits = "unknown";
         morseCode = "unknown";
       } else {
-        morseCode = morsify.encode(digits);
+        morseCode = morse.encode(digits);
       }
 
       const customBadge = isCustom ? (

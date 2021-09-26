@@ -2,7 +2,7 @@
 import React from "react";
 import { Badge, OverlayTrigger, Popover, Table } from "react-bootstrap";
 
-import morsify from "morsify";
+import morse from "morse-decoder";
 
 import LookupTrigraphs from "../lib/LookupTrigraphs";
 
@@ -15,7 +15,7 @@ export default class TrigraphTable extends React.Component<TrigraphTableProps> {
   render() {
     const rows = [...this.props.input].map((char, index) => {
       let [trigraph, chineseTrigraph] = this.props.lookupTrigraphs.lookup(char);
-      let morseCode = morsify.encode(trigraph);
+      let morseCode = morse.encode(trigraph);
 
       const customBadge = (
         <span>

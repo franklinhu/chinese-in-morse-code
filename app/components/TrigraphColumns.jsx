@@ -11,7 +11,7 @@ import {
   Table
 } from "react-bootstrap";
 
-import morsify from "morsify";
+import morse from "morse-decoder";
 
 import LookupTrigraphs from "../lib/LookupTrigraphs";
 import { charsPerRow } from "../lib/util";
@@ -69,7 +69,7 @@ export default class TrigraphColumns extends React.Component<Props, State> {
       const [char, trigraph, chineseTrigraph, morseCode] = tuple;
       return morseCode;
     }).join()
-    const audio = morsify.audio(toPlay)
+    const audio = morse.audio(toPlay)
     audio.play();
   }
 
@@ -78,7 +78,7 @@ export default class TrigraphColumns extends React.Component<Props, State> {
       const [trigraph, chineseTrigraph] = this.props.lookupTrigraphs.lookup(
         char
       );
-      const morseCode = morsify.encode(trigraph);
+      const morseCode = morse.encode(trigraph);
       return [char, trigraph, chineseTrigraph, morseCode];
     });
   }

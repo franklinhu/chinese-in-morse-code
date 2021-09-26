@@ -10,11 +10,11 @@ import {
   Spinner,
   Table
 } from "react-bootstrap";
-import morsify from "morsify";
+import morse from "morse-decoder";
 
 import LookupDigits from "../lib/LookupDigits";
-import {sanitizeInput} from "../lib/sanitizeInput";
-import {fetchChineseToDigitsJson} from '../lib/fetchChineseToDigitsJson'
+import { sanitizeInput } from "../lib/sanitizeInput";
+import { fetchChineseToDigitsJson } from '../lib/fetchChineseToDigitsJson'
 
 import DigitTable from "./DigitTable";
 import InputTextArea from "./InputTextArea";

@@ -9,7 +9,7 @@ import {
   Spinner,
   Table
 } from "react-bootstrap";
-import morsify from "morsify";
+import morse from "morse-decoder";
 
 import LookupDigits from "../lib/LookupDigits"
 
@@ -27,8 +27,8 @@ type ConverterProps = {
   lookupDigits: LookupDigits
 };
 
-class Converter extends React.Component<{input: string}> {
-  
+class Converter extends React.Component<{ input: string }> {
+
   chineseToDigitAscii(value) {
     return [...value]
       .map((char: String) => this.props.lookupDigits.lookup(char)[0])
@@ -37,9 +37,9 @@ class Converter extends React.Component<{input: string}> {
 
   render() {
     const digits = this.chineseToDigitAscii(this.props.input);
-    const digitsMorse = morsify.encode(digits);
+    const digitsMorse = morse.encode(digits);
     const alpha = chineseToAlphaAscii(this.props.input);
-    const alphaMorse = morsify.encode(alpha);
+    const alphaMorse = morse.encode(alpha);
     return (
       <React.Fragment>
         <Col>

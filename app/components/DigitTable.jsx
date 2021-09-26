@@ -2,7 +2,7 @@
 import React from "react";
 import { Badge, OverlayTrigger, Popover, Table } from "react-bootstrap";
 
-import morsify from "morsify";
+import morse from "morse-decoder";
 
 import LookupDigits from "../lib/LookupDigits";
 
@@ -20,7 +20,7 @@ export default class DigitTable extends React.Component<DigitTableProps> {
         digits = "unknown";
         morseCode = "unknown";
       } else {
-        morseCode = morsify.encode(digits);
+        morseCode = morse.encode(digits);
       }
 
       const customBadge = isCustom ? (
@@ -41,7 +41,7 @@ export default class DigitTable extends React.Component<DigitTableProps> {
                     Standard Telegraph Codebook (1983)
                   </a>
                   , so we've randomly assigned it an unused number. Codebooks
-                   had empty spaces that allowed for adaptation over time.
+                  had empty spaces that allowed for adaptation over time.
                 </Popover.Content>
               </Popover>
             }
