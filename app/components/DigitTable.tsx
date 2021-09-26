@@ -1,5 +1,4 @@
-// @flow
-import React from "react";
+import * as React from "react";
 import { Badge, OverlayTrigger, Popover, Table } from "react-bootstrap";
 
 import morse from "morse-decoder";
