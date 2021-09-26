@@ -7,7 +7,6 @@
   "description": "A small scaffold to get you started using React with Webpack",
   "main": "server.js",
   "scripts": {
-    "preStart": "flow; babel app/ -d lib/",
     "build": "webpack",
     "start": "webpack && node server.js"
   },
@@ -15,7 +14,6 @@
     "@babel/core": "^7.11.6",
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.10.4",
-    "babel-cli": "^6.26.0",
     "bootstrap": "^4.5.2",
     "css-loader": "^3.6.0",
     "express": "^4.17.1",
