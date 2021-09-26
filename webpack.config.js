@@ -19,7 +19,7 @@ module.exports = {
         exclude: /node_modules/,
         include: path.join(__dirname, "app")
       },
-      { test: /\.css$/, loader: "style-loader!css-loader" }
+      { test: /\.css$/, use: ['style-loader', 'css-loader'] }
     ]
   }
 };
