@@ -1,5 +1,4 @@
-// @flow
-import React from "react";
+import * as React from "react";
 import {
   Container,
   Row,
@@ -17,19 +16,20 @@ import LookupDigits from "../lib/LookupDigits"
 const dataTable = [["你", "abc"], ["好", "xyz"]];
 const chineseToAlpha = new Map(dataTable.map(arr => [arr[0], arr[1]]));
 
-const chineseToAlphaAscii = (s: String) => {
+const chineseToAlphaAscii = (s: string) => {
   return [...s]
-    .map((char: String) => chineseToAlpha.get(char))
+    .map((char: string) => chineseToAlpha.get(char))
     .reduce((acc, x) => acc + x, "");
 };
 
 type ConverterProps = {
+  input: string
   lookupDigits: LookupDigits
 };
 
-class Converter extends React.Component<{ input: string }> {
+class Converter extends React.Component<ConverterProps> {
 
-  chineseToDigitAscii(value) {
+  chineseToDigitAscii(value: string) {
     return [...value]
       .map((char: String) => this.props.lookupDigits.lookup(char)[0])
       .reduce((acc, x) => acc + x, "");

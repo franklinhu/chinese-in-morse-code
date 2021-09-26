@@ -1,10 +1,14 @@
-// @flow
-import React from "react";
+import * as React from "react";
 
 import { Button, InputGroup, Form } from "react-bootstrap";
 
+type TypeHandler = (name: string) => void;
+type InputHandler = (event: any) => void;
+
 type Props = {
-  handleType: string => void
+  handleType: TypeHandler
+  handleInput: InputHandler
+  input: string
 };
 
 type State = {
@@ -12,7 +16,7 @@ type State = {
 };
 
 export default class InputTextArea extends React.Component<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       selected: "digits"
@@ -20,17 +24,17 @@ export default class InputTextArea extends React.Component<Props, State> {
     this.handleInput = this.handleInput.bind(this);
     this.handleButton = this.handleButton.bind(this);
   }
-  
-  handleInput(event) {
+
+  handleInput(event: any) {
     // Resize the input form element automatically
     event.target.style.height = 'auto';
-    event.target.style.height = event.target.scrollHeight+'px';
-    
+    event.target.style.height = event.target.scrollHeight + 'px';
+
     // Pass along the event
     this.props.handleInput(event);
   }
 
-  handleButton(name) {
+  handleButton(name: string) {
     return () => {
       this.setState({ selected: name });
       this.props.handleType(name);
@@ -40,7 +44,7 @@ export default class InputTextArea extends React.Component<Props, State> {
   render() {
     const digitsButtonVariant = this.state.selected === "digits" ? "primary" : "outline-primary";
     const trigraphsButtonVariant = this.state.selected === "trigraphs" ? "primary" : "outline-primary";
-    
+
     return (
       <React.Fragment>
         <InputGroup>
@@ -49,7 +53,7 @@ export default class InputTextArea extends React.Component<Props, State> {
             size="lg"
             className="input-text-area center"
             onChange={this.handleInput}
-            style={{maxWidth: "50%"}}
+            style={{ maxWidth: "50%" }}
             value={this.props.input}
           />
         </InputGroup>

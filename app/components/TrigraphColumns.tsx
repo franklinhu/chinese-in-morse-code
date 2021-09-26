@@ -1,5 +1,5 @@
 // @flow
-import React from "react";
+import * as React from "react";
 import { chunk } from "lodash";
 import {
   Badge,
@@ -13,8 +13,8 @@ import {
 
 import morse from "morse-decoder";
 
-import LookupDigits from "../lib/LookupDigits";
-import { charsPerRow } from "../lib/util"
+import LookupTrigraphs from "../lib/LookupTrigraphs";
+import { charsPerRow } from "../lib/util";
 
 const highlights = ["#fdb9c9", "#ffdcbe", "#f6f3b5", "#bbf6f3", "#a7e0f4"];
 
@@ -22,20 +22,17 @@ const pickHighlight = (index: number) => {
   return highlights[index % highlights.length];
 };
 
-type DigitColumnsProps = {
+type Props = {
   input: string,
-  lookupDigits: LookupDigits
+  lookupTrigraphs: LookupTrigraphs
 };
 
-type DigitColumnsState = {
-  characterFocus: ?number
+type State = {
+  characterFocus?: number
 };
 
-export default class DigitColumns extends React.Component<
-  DigitColumnsProps,
-  DigitColumnsState
-> {
-  constructor(props) {
+export default class TrigraphColumns extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     const randomFocus = Math.floor(Math.random() * this.props.input.length);
@@ -44,16 +41,19 @@ export default class DigitColumns extends React.Component<
     };
     this.handleCharacterFocus = this.handleCharacterFocus.bind(this);
     this.handleCharacterUnfocus = this.handleCharacterUnfocus.bind(this);
+    this.handlePlay = this.handlePlay.bind(this);
+
+    this.processInput = this.processInput.bind(this);
   }
 
-  handleCharacterFocus(index) {
-    return event => {
+  handleCharacterFocus(index: number) {
+    return (event: any) => {
       this.setState({ characterFocus: index });
     };
   }
 
-  handleCharacterUnfocus(index) {
-    return event => {
+  handleCharacterUnfocus(index: number) {
+    return (event: any) => {
       this.setState((state, props) => {
         if (state.characterFocus === index) {
           // state.characterFocus = null;
@@ -64,18 +64,29 @@ export default class DigitColumns extends React.Component<
     };
   }
 
-  render() {
-    const pairs = [...this.props.input].map((char, index) => {
-      let [digits, isCustom] = this.props.lookupDigits.lookup(char);
-      let morseCode;
-      if (!digits) {
-        digits = "unknown";
-        morseCode = "unknown";
-      } else {
-        morseCode = morse.encode(digits);
-      }
+  handlePlay() {
+    const toPlay = this.processInput().map((tuple) => {
+      const [char, trigraph, chineseTrigraph, morseCode] = tuple;
+      return morseCode;
+    }).join()
+    const audio = morse.audio(toPlay)
+    audio.play();
+  }
 
-      const customBadge = isCustom ? (
+  processInput() {
+    return [...this.props.input].map((char, index) => {
+      const [trigraph, chineseTrigraph] = this.props.lookupTrigraphs.lookup(
+        char
+      );
+      const morseCode = morse.encode(trigraph);
+      return [char, trigraph, chineseTrigraph, morseCode];
+    });
+  }
+
+  render() {
+    const pairs = this.processInput().map((tuple, index) => {
+      const [char, trigraph, chineseTrigraph, morseCode] = tuple;
+      const customBadge = (
         <span>
           &nbsp;
           <OverlayTrigger
@@ -85,15 +96,9 @@ export default class DigitColumns extends React.Component<
               <Popover id="some-id">
                 <Popover.Title as="h3">Custom encoding</Popover.Title>
                 <Popover.Content>
-                  This character isn't in the{" "}
-                  <a
-                    href="https://en.wiktionary.org/wiki/Appendix:Chinese_telegraph_code/Mainland_1983"
-                    rel="_external"
-                  >
-                    Standard Telegraph Codebook (1983)
-                  </a>
-                  , so we've randomly assigned it an unused number. Codebooks
-                  had empty spaces that allowed for adaptation over time.
+                  We don't currently have actual trigraph data from code books,
+                  so we've randomly assigned it a random trigraph to give you a
+                  sense of what this would look like.
                 </Popover.Content>
               </Popover>
             }
@@ -101,7 +106,7 @@ export default class DigitColumns extends React.Component<
             <Badge variant="primary">*</Badge>
           </OverlayTrigger>
         </span>
-      ) : null;
+      );
 
       const focusClass =
         this.state.characterFocus === index ? "character-focus" : null;
@@ -121,9 +126,13 @@ export default class DigitColumns extends React.Component<
           style={style}
         >
           <div style={{ fontSize: "1.2em", textAlign: "center" }}>{char}</div>
-          <div style={{ fontSize: "0.75em", textAlign: "center" }}>
-            {digits}{customBadge}
+          <div
+            style={{ fontSize: "0.75em", textAlign: "center" }}
+            className="text-monospace"
+          >
+            {chineseTrigraph}/{trigraph}
           </div>
+          <div className="text-center">{customBadge}</div>
         </Col>
       );
 
@@ -132,7 +141,7 @@ export default class DigitColumns extends React.Component<
 
     const chunkedChars = chunk(
       pairs.map(pair => pair[0]),
-      charsPerRow(this.props.input.length)
+      charsPerRow([...this.props.input].length)
     ).map((charChunk, index) => {
       return (
         <Row key={index} className="encoded-charater-row-body">
@@ -161,15 +170,17 @@ export default class DigitColumns extends React.Component<
 
     return (
       <React.Fragment>
-        <Col>
+        <Col xs={6}>
           <Row>
-            <h4 className="center">Characters encoded to digits...</h4>
+            <h4 className="center">Characters encoded to trigraphs...</h4>
           </Row>
           {chunkedChars}
         </Col>
-        <Col>
+        <Col xs={6}>
           <Row>
-            <h4 className="center">...then to Morse code</h4>
+            <h4 className="center">
+              ...then to Morse code <a onClick={this.handlePlay}>🎵</a>
+            </h4>
           </Row>
           <Row>
             <div className="morse-code-block">{morseDivs}</div>

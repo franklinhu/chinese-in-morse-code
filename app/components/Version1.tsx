@@ -1,5 +1,4 @@
-// @flow
-import React from "react";
+import * as React from "react";
 import {
   Button,
   Container,
@@ -10,7 +9,6 @@ import {
   Spinner,
   Table
 } from "react-bootstrap";
-import morse from "morse-decoder";
 
 import LookupDigits from "../lib/LookupDigits";
 import { sanitizeInput } from "../lib/sanitizeInput";
@@ -21,11 +19,11 @@ import InputTextArea from "./InputTextArea";
 
 type AppState = {
   input: string,
-  lookupDigits: ?LookupDigits
+  lookupDigits?: LookupDigits
 };
 
 export default class Version1 extends React.Component<{}, AppState> {
-  constructor(props) {
+  constructor(props: {}) {
     super(props);
     this.state = {
       input: "床前明月光，疑是地上霜。举头望明月，低头思故乡。",
@@ -34,7 +32,7 @@ export default class Version1 extends React.Component<{}, AppState> {
     this.handleInput = this.handleInput.bind(this);
   }
 
-  handleInput(event) {
+  handleInput(event: any) {
     this.setState({ input: event.target.value });
   }
 
@@ -62,6 +60,7 @@ export default class Version1 extends React.Component<{}, AppState> {
         <Row>
           <InputTextArea
             handleInput={this.handleInput}
+            handleType={() => { }}
             input={this.state.input}
           />
         </Row>

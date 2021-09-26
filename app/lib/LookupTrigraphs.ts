@@ -1,6 +1,5 @@
-// @flow
 // These are in traditional Chinese
-export const LetterToChinese = {
+export const LetterToChinese: any = {
   a: "爱",
   b: "比",
   c: "西",
@@ -43,7 +42,7 @@ const generateTrigraph = () => {
   return `${first}${second}${third}`;
 };
 
-const getChineseTrigraph = (input: String) => {
+const getChineseTrigraph = (input: string): string => {
   return [...input]
     .map(char => {
       return LetterToChinese[char];
@@ -55,24 +54,25 @@ const getChineseTrigraph = (input: String) => {
 // so here we just pretend like the entire table is empty and return random ones
 // to simulate what they would look like.
 export default class LookupTrigraphs {
+  freeTrigraphMap: Map<string, string>;
+  usedTrigraphs: Map<string, boolean>;
+
   constructor() {
     // Maps single Chinese characters to 3 alphabetic letters
-    this.freeTrigraphMap = {
-      "冬": "apb", // hard code for demo
-    };
+    this.freeTrigraphMap = new Map<string, string>();
+    this.freeTrigraphMap.set("冬", "apb"); // hard code for demo
 
-    this.usedTrigraphs = {
-      "apb": true, // hard code for demo
-    };
+    this.usedTrigraphs = new Map<string, boolean>();
+    this.usedTrigraphs.set("apb", true); // hard code for demo
   }
 
-  getTrigraphForCharacter(key) {
+  getTrigraphForCharacter(key: string) {
     // Generate three random characters and see if it's already taken.
     // This admittedly performs worse over time as the map fills up,
     // but for a demo this should be fine
     for (let i = 0; i < 17576; i++) {
       const trigraph = generateTrigraph();
-      if (this.usedTrigraphs[trigraph] === undefined) {
+      if (this.usedTrigraphs.get(trigraph) === undefined) {
         return trigraph;
       }
     }
@@ -84,15 +84,15 @@ export default class LookupTrigraphs {
   }
 
   // Returns the value for the key
-  lookup(key) {
+  lookup(key: string) {
     const isCustom = true; // they're all custom
-    
-    let value = this.freeTrigraphMap[key];
+
+    let value = this.freeTrigraphMap.get(key);
 
     if (value === undefined) {
       value = this.getTrigraphForCharacter(key);
-      this.freeTrigraphMap[key] = value;
-      this.usedTrigraphs[value] = true;
+      this.freeTrigraphMap.set(key, value);
+      this.usedTrigraphs.set(value, true);
     }
 
     const chineseTrigraph = getChineseTrigraph(value);

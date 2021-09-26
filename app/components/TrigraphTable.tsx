@@ -1,29 +1,22 @@
-// @flow
-import React from "react";
+import * as React from "react";
 import { Badge, OverlayTrigger, Popover, Table } from "react-bootstrap";
 
 import morse from "morse-decoder";
 
-import LookupDigits from "../lib/LookupDigits";
+import LookupTrigraphs from "../lib/LookupTrigraphs";
 
-type DigitTableProps = {
+type TrigraphTableProps = {
   input: string,
-  lookupDigits: LookupDigits
+  lookupTrigraphs: LookupTrigraphs
 };
 
-export default class DigitTable extends React.Component<DigitTableProps> {
+export default class TrigraphTable extends React.Component<TrigraphTableProps> {
   render() {
     const rows = [...this.props.input].map((char, index) => {
-      let [digits, isCustom] = this.props.lookupDigits.lookup(char);
-      let morseCode;
-      if (!digits) {
-        digits = "unknown";
-        morseCode = "unknown";
-      } else {
-        morseCode = morse.encode(digits);
-      }
+      let [trigraph, chineseTrigraph] = this.props.lookupTrigraphs.lookup(char);
+      let morseCode = morse.encode(trigraph);
 
-      const customBadge = isCustom ? (
+      const customBadge = (
         <span>
           &nbsp;
           <OverlayTrigger
@@ -33,15 +26,9 @@ export default class DigitTable extends React.Component<DigitTableProps> {
               <Popover id="some-id">
                 <Popover.Title as="h3">Custom encoding</Popover.Title>
                 <Popover.Content>
-                  This character isn't in the{" "}
-                  <a
-                    href="https://en.wiktionary.org/wiki/Appendix:Chinese_telegraph_code/Mainland_1983"
-                    rel="_external"
-                  >
-                    Standard Telegraph Codebook (1983)
-                  </a>
-                  , so we've randomly assigned it an unused number. Codebooks
-                  had empty spaces that allowed for adaptation over time.
+                  These trigraphs are randomaly generated in your browser for
+                  each character since we haven't gotten our hands on actual
+                  codebooks yet.
                 </Popover.Content>
               </Popover>
             }
@@ -49,15 +36,13 @@ export default class DigitTable extends React.Component<DigitTableProps> {
             <Badge variant="primary">custom</Badge>
           </OverlayTrigger>
         </span>
-      ) : null;
+      );
 
       return (
         <tr key={index}>
           <td>{char}</td>
           <td className="text-monospace">
-            {digits}
-            {customBadge}
-          </td>
+            {chineseTrigraph}/{trigraph}{customBadge}</td>
           <td className="text-monospace">{morseCode}</td>
         </tr>
       );
@@ -68,7 +53,7 @@ export default class DigitTable extends React.Component<DigitTableProps> {
         <thead>
           <tr>
             <th>Input</th>
-            <th>Digits</th>
+            <th>Trigraph</th>
             <th>Morse code</th>
           </tr>
         </thead>

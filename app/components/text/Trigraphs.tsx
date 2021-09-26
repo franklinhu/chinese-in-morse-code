@@ -1,5 +1,4 @@
-// @flow
-import React from "react";
+import * as React from "react";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -19,7 +18,7 @@ export default class Trigraphs extends React.Component {
       );
     });
 
-    const chunked = chunk(mapping, 7).map((pairChunk, index) => {
+    const chunked = chunk(mapping, 7).map((pairChunk: JSX.Element[], index: number) => {
       return <Col key={index}>{pairChunk}</Col>;
     });
 

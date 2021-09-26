@@ -3,21 +3,20 @@ const path = require("path");
 module.exports = {
   mode: "development", // production
   context: path.join(__dirname, "./"),
-  entry: "./app/app.jsx",
+  entry: "./app/app.tsx",
   output: {
     path: path.join(__dirname, "public"),
     filename: "bundle.js"
   },
   resolve: {
-    extensions: [".js", ".jsx"]
+    extensions: [".tsx", ".ts", ".js", ".jsx"]
   },
   module: {
     rules: [
       {
-        test: /\.(js|jsx)?$/,
-        loader: "babel-loader",
+        test: /\.(ts|js)x?$/,
+        use: 'ts-loader',
         exclude: /node_modules/,
-        include: path.join(__dirname, "app")
       },
       { test: /\.css$/, use: ['style-loader', 'css-loader'] }
     ]

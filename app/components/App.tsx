@@ -1,5 +1,4 @@
-// @flow
-import React from "react";
+import * as React from "react";
 
 import { Nav, Row, Col, Spinner, Button } from "react-bootstrap";
 
@@ -29,7 +28,7 @@ type AppState = {
 };
 
 export default class App extends React.Component<{}, AppState> {
-  constructor(props) {
+  constructor(props: {}) {
     super(props);
 
     const phrase = GetRandomPhrase();
@@ -55,26 +54,26 @@ export default class App extends React.Component<{}, AppState> {
       });
   }
 
-  handleInput(event) {
+  handleInput(event: any) {
     this.setState({ input: event.target.value });
   }
 
-  handleSelect(eventKey) {
+  handleSelect(eventKey: string) {
     this.setState({ eventKey: eventKey });
   }
 
-  handleType(name) {
+  handleType(name: string) {
     this.setState({ eventKey: name });
   }
 
   handleRefreshInput() {
-    this.setState((state) => { 
+    this.setState((state) => {
       const newInput = GetRandomPhrase(state.input);
-      return {input: newInput }
+      return { input: newInput }
     });
   }
 
-  renderTabContent(eventKey) {
+  renderTabContent(eventKey: string) {
     const input = sanitizeInput(this.state.input);
     if (eventKey == "trigraphs") {
       return (
@@ -119,7 +118,7 @@ export default class App extends React.Component<{}, AppState> {
         </Row>
         <Row>
           <h3 className="center">Try it! <a onClick={this.handleRefreshInput}>🔁</a></h3>
-          
+
         </Row>
         <Row>
           <InputTextArea
