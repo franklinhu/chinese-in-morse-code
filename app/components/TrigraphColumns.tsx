@@ -1,5 +1,5 @@
 // @flow
-import React from "react";
+import * as React from "react";
 import { chunk } from "lodash";
 import {
   Badge,
@@ -28,11 +28,11 @@ type Props = {
 };
 
 type State = {
-  characterFocus: ?number
+  characterFocus?: number
 };
 
 export default class TrigraphColumns extends React.Component<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     const randomFocus = Math.floor(Math.random() * this.props.input.length);
