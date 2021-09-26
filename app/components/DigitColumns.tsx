@@ -1,5 +1,4 @@
-// @flow
-import React from "react";
+import * as React from "react";
 import { chunk } from "lodash";
 import {
   Badge,
@@ -28,7 +27,7 @@ type DigitColumnsProps = {
 };
 
 type DigitColumnsState = {
-  characterFocus: ?number
+  characterFocus?: number
 };
 
 export default class DigitColumns extends React.Component<
