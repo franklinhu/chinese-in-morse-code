@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { Container, Nav, Navbar, Row, Col } from "react-bootstrap";
 import { BrowserRouter, Route, Switch, NavLink } from "react-router-dom";
 
@@ -16,7 +16,7 @@ export default class Router extends React.Component {
           <Switch>
             <Route exact path="/" component={App} />
           </Switch>
-          
+
           <div className="text-center">
             <span>Made with ❤️ by <a href="https://twitter.com/thisisfranklin">Franklin Hu</a></span>
           </div>
