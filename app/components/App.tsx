@@ -1,5 +1,4 @@
-// @flow
-import React from "react";
+import * as React from "react";
 
 import { Nav, Row, Col, Spinner, Button } from "react-bootstrap";
 
@@ -68,9 +67,9 @@ export default class App extends React.Component<{}, AppState> {
   }
 
   handleRefreshInput() {
-    this.setState((state) => { 
+    this.setState((state) => {
       const newInput = GetRandomPhrase(state.input);
-      return {input: newInput }
+      return { input: newInput }
     });
   }
 
@@ -119,7 +118,7 @@ export default class App extends React.Component<{}, AppState> {
         </Row>
         <Row>
           <h3 className="center">Try it! <a onClick={this.handleRefreshInput}>🔁</a></h3>
-          
+
         </Row>
         <Row>
           <InputTextArea
