@@ -54,8 +54,8 @@ export default class App extends React.Component<{}, AppState> {
       });
   }
 
-  handleInput(event: any) {
-    this.setState({ input: event.target.value });
+  handleInput(event: React.FormEvent<HTMLTextAreaElement>) {
+    this.setState({ input: event.currentTarget.value });
   }
 
   handleSelect(eventKey: string) {

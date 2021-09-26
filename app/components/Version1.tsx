@@ -32,8 +32,8 @@ export default class Version1 extends React.Component<{}, AppState> {
     this.handleInput = this.handleInput.bind(this);
   }
 
-  handleInput(event: any) {
-    this.setState({ input: event.target.value });
+  handleInput(event: React.FormEvent<HTMLTextAreaElement>) {
+    this.setState({ input: event.currentTarget.value });
   }
 
   componentWillMount() {

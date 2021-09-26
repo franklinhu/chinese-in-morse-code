@@ -3,7 +3,7 @@ import * as React from "react";
 import { Button, InputGroup, Form } from "react-bootstrap";
 
 type TypeHandler = (name: string) => void;
-type InputHandler = (event: any) => void;
+type InputHandler = (event: React.FormEvent<HTMLTextAreaElement>) => void;
 
 type Props = {
   handleType: TypeHandler
@@ -25,10 +25,10 @@ export default class InputTextArea extends React.Component<Props, State> {
     this.handleButton = this.handleButton.bind(this);
   }
 
-  handleInput(event: any) {
+  handleInput(event: React.FormEvent<HTMLTextAreaElement>) {
     // Resize the input form element automatically
-    event.target.style.height = 'auto';
-    event.target.style.height = event.target.scrollHeight + 'px';
+    event.currentTarget.style.height = 'auto';
+    event.currentTarget.style.height = event.currentTarget.scrollHeight + 'px';
 
     // Pass along the event
     this.props.handleInput(event);
