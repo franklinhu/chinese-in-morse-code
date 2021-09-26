@@ -18,7 +18,7 @@ export default class Trigraphs extends React.Component {
       );
     });
 
-    const chunked = chunk(mapping, 7).map((pairChunk, index) => {
+    const chunked = chunk(mapping, 7).map((pairChunk: JSX.Element[], index: number) => {
       return <Col key={index}>{pairChunk}</Col>;
     });
 

@@ -34,7 +34,7 @@ export default class DigitColumns extends React.Component<
   DigitColumnsProps,
   DigitColumnsState
 > {
-  constructor(props) {
+  constructor(props: DigitColumnsProps) {
     super(props);
 
     const randomFocus = Math.floor(Math.random() * this.props.input.length);
@@ -45,14 +45,14 @@ export default class DigitColumns extends React.Component<
     this.handleCharacterUnfocus = this.handleCharacterUnfocus.bind(this);
   }
 
-  handleCharacterFocus(index) {
-    return event => {
+  handleCharacterFocus(index: number) {
+    return (event: any) => {
       this.setState({ characterFocus: index });
     };
   }
 
-  handleCharacterUnfocus(index) {
-    return event => {
+  handleCharacterUnfocus(index: number) {
+    return (event: any) => {
       this.setState((state, props) => {
         if (state.characterFocus === index) {
           // state.characterFocus = null;

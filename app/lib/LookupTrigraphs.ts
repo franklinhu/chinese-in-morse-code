@@ -1,5 +1,5 @@
 // These are in traditional Chinese
-export const LetterToChinese = {
+export const LetterToChinese: any = {
   a: "爱",
   b: "比",
   c: "西",
@@ -42,7 +42,7 @@ const generateTrigraph = () => {
   return `${first}${second}${third}`;
 };
 
-const getChineseTrigraph = (input /* String */) => {
+const getChineseTrigraph = (input: string): string => {
   return [...input]
     .map(char => {
       return LetterToChinese[char];
@@ -72,7 +72,7 @@ export default class LookupTrigraphs {
     // but for a demo this should be fine
     for (let i = 0; i < 17576; i++) {
       const trigraph = generateTrigraph();
-      if (this.usedTrigraphs[trigraph] === undefined) {
+      if (this.usedTrigraphs.get(trigraph) === undefined) {
         return trigraph;
       }
     }
@@ -87,12 +87,12 @@ export default class LookupTrigraphs {
   lookup(key: string) {
     const isCustom = true; // they're all custom
 
-    let value = this.freeTrigraphMap[key];
+    let value = this.freeTrigraphMap.get(key);
 
     if (value === undefined) {
       value = this.getTrigraphForCharacter(key);
-      this.freeTrigraphMap[key] = value;
-      this.usedTrigraphs[value] = true;
+      this.freeTrigraphMap.set(key, value);
+      this.usedTrigraphs.set(value, true);
     }
 
     const chineseTrigraph = getChineseTrigraph(value);

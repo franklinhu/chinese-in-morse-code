@@ -46,14 +46,14 @@ export default class TrigraphColumns extends React.Component<Props, State> {
     this.processInput = this.processInput.bind(this);
   }
 
-  handleCharacterFocus(index) {
-    return event => {
+  handleCharacterFocus(index: number) {
+    return (event: any) => {
       this.setState({ characterFocus: index });
     };
   }
 
-  handleCharacterUnfocus(index) {
-    return event => {
+  handleCharacterUnfocus(index: number) {
+    return (event: any) => {
       this.setState((state, props) => {
         if (state.characterFocus === index) {
           // state.characterFocus = null;

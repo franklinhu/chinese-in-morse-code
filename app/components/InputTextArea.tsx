@@ -25,7 +25,7 @@ export default class InputTextArea extends React.Component<Props, State> {
     this.handleButton = this.handleButton.bind(this);
   }
 
-  handleInput(event) {
+  handleInput(event: any) {
     // Resize the input form element automatically
     event.target.style.height = 'auto';
     event.target.style.height = event.target.scrollHeight + 'px';
@@ -34,7 +34,7 @@ export default class InputTextArea extends React.Component<Props, State> {
     this.props.handleInput(event);
   }
 
-  handleButton(name) {
+  handleButton(name: string) {
     return () => {
       this.setState({ selected: name });
       this.props.handleType(name);

@@ -23,7 +23,7 @@ type AppState = {
 };
 
 export default class Version1 extends React.Component<{}, AppState> {
-  constructor(props) {
+  constructor(props: {}) {
     super(props);
     this.state = {
       input: "床前明月光，疑是地上霜。举头望明月，低头思故乡。",
@@ -32,7 +32,7 @@ export default class Version1 extends React.Component<{}, AppState> {
     this.handleInput = this.handleInput.bind(this);
   }
 
-  handleInput(event) {
+  handleInput(event: any) {
     this.setState({ input: event.target.value });
   }
 

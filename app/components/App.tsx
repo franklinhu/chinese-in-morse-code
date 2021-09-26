@@ -28,7 +28,7 @@ type AppState = {
 };
 
 export default class App extends React.Component<{}, AppState> {
-  constructor(props) {
+  constructor(props: {}) {
     super(props);
 
     const phrase = GetRandomPhrase();
@@ -54,15 +54,15 @@ export default class App extends React.Component<{}, AppState> {
       });
   }
 
-  handleInput(event) {
+  handleInput(event: any) {
     this.setState({ input: event.target.value });
   }
 
-  handleSelect(eventKey) {
+  handleSelect(eventKey: string) {
     this.setState({ eventKey: eventKey });
   }
 
-  handleType(name) {
+  handleType(name: string) {
     this.setState({ eventKey: name });
   }
 
@@ -73,7 +73,7 @@ export default class App extends React.Component<{}, AppState> {
     });
   }
 
-  renderTabContent(eventKey) {
+  renderTabContent(eventKey: string) {
     const input = sanitizeInput(this.state.input);
     if (eventKey == "trigraphs") {
       return (
